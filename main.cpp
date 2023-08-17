@@ -1,9 +1,8 @@
 #include "raylib.h"
 
-
 int main(void)
 {
-   
+
     const int screenWidth = 800;
     const int screenHeight = 450;
 
@@ -13,10 +12,12 @@ int main(void)
     Vector2 rectangleSize = { (float)screenWidth / 30, (float)screenHeight / 4 };
     Vector2 rectanglePosition2 = { (float)screenWidth - 100, (float)screenHeight / 3 };
     Vector2 ballPosition = { (float)screenWidth / 2, (float)screenHeight / 2 };
+    Vector2 middleRectanglePosition = { (float)screenWidth - 420, (float)screenHeight / 40 };
+    Vector2 middleRectangleSize = { (float)screenWidth / 30, (float)screenHeight - 20 };
 
-    SetTargetFPS(60);              
+    SetTargetFPS(60);
 
-    while (!WindowShouldClose())    
+    while (!WindowShouldClose())
     {
         if (IsKeyDown(KEY_UP)) rectanglePosition1.y -= 0.5f;
 
@@ -25,14 +26,14 @@ int main(void)
         if (IsKeyDown(KEY_W)) rectanglePosition2.y -= 0.5f;
 
         if (IsKeyDown(KEY_S)) rectanglePosition2.y += 0.5f;
-      
+
         BeginDrawing();
 
         ClearBackground(BLACK);
 
         DrawText("move the ball with arrow keys", 10, 10, 20, WHITE);
 
-        DrawCircleV(ballPosition , 20, WHITE);
+        DrawCircleV(ballPosition, 20, WHITE);
 
         ballPosition.x += 0.5f;
         if (ballPosition.x == rectanglePosition2.x)
@@ -49,12 +50,14 @@ int main(void)
 
         DrawRectangleV(rectanglePosition2, rectangleSize, WHITE);
 
+        DrawRectangleV(middleRectanglePosition, middleRectangleSize, WHITE);
+
         EndDrawing();
-       
+
     }
 
-    
-    CloseWindow();        
+
+    CloseWindow();
 
     return 0;
 }
