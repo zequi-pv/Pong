@@ -6,7 +6,7 @@ struct Pad
 {
     Vector2 Position;
     Vector2 Size;
-    int score = 0;
+    int score;
     int minPosition;
     int maxPosition;
 };

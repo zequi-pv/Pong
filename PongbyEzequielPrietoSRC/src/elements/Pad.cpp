@@ -5,8 +5,9 @@ void initPad1(Pad& pad)
 {
 	pad.Position = { GetScreenWidth() / 10.0f, GetScreenHeight() / 3.0f };
 	pad.Size = { GetScreenWidth() / 30.0f, GetScreenHeight() / 4.0f };
+	pad.score = 0;
 	pad.minPosition = 0;
-	pad.maxPosition = GetScreenHeight() - pad.Size.y;
+	pad.maxPosition = GetScreenHeight() - static_cast<int>(pad.Size.y);
 	Limit(pad);
 }
 
@@ -14,8 +15,9 @@ void initPad2(Pad& pad)
 {
 	pad.Position = { GetScreenWidth() - 100.0f, GetScreenHeight() / 3.0f };
 	pad.Size = { GetScreenWidth() / 30.0f, GetScreenHeight() / 4.0f };
+	pad.score = 0;
 	pad.minPosition = 0;
-	pad.maxPosition = GetScreenHeight() - pad.Size.y;
+	pad.maxPosition = GetScreenHeight() - static_cast<int>(pad.Size.y);
 	Limit(pad);
 }
 
@@ -23,11 +25,11 @@ void Limit(Pad& rectangle)
 {
 	if (rectangle.Position.y <= 0)
 	{
-		rectangle.Position.y = rectangle.minPosition;
+		rectangle.Position.y = static_cast<float>(rectangle.minPosition);
 	}
 	else if (rectangle.Position.y + rectangle.Size.y >= GetScreenHeight())
 	{
-		rectangle.Position.y = rectangle.maxPosition;
+		rectangle.Position.y = static_cast<float>(rectangle.maxPosition);
 	}
 }
 

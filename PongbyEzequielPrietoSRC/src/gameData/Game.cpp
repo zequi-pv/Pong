@@ -23,6 +23,8 @@ static void inputsMulti(Pad& rectangle1, Pad& rectangle2);
 static void updateMultiplayer(Ball& ball, Pad& rectangle1, Pad& rectangle2, GameScreen& currentScreen, bool& gameOver, int winPoints);
 static void close();
 
+bool Paused = false;
+
 void runGame()
 {
     Ball ball;
@@ -30,13 +32,13 @@ void runGame()
     Pad rectangle2;
     Pad middleRectangle;
     bool gameOver = false;
-    bool Paused = false;
+    
 
     init(ball, rectangle1, rectangle2, middleRectangle);
 
     
-    int initialDirection = GetRandomValue(1, 4);
-    int initialDirectionAgain = GetRandomValue(1,2);
+    /*int initialDirection = GetRandomValue(1, 4);
+    int initialDirectionAgain = GetRandomValue(1,2);*/
     int currentOption = 0;
     int firstOption = SINGLEPLAYER;
     int lastOption = EXIT;
@@ -135,27 +137,27 @@ void runGame()
         {
         case MENU:
             ClearBackground(BLACK);
-            DrawText("Made by Ezequiel Prieto", 10.0f, 430.0f, 20.0f, WHITE);
-            DrawText("SUPER CHAMPION PONG", GetScreenWidth() / 2.0f - 250.0f, 50.0f, 40.0f, WHITE);
-            DrawText("SINGLE PLAYER", GetScreenWidth() / 2.0f - 40.0f, 150.0f, 20.0f, WHITE);
-            DrawText("MULTI PLAYER", GetScreenWidth() / 2.0f - 40.0f, 200.0f, 20.0f, WHITE);
-            DrawText("RULES", GetScreenWidth() / 2.0f - 40.0f, 250.0f, 20.0f, WHITE);
-            DrawText("EXIT", GetScreenWidth() / 2.0f - 40.0f, 300.0f, 20.0f, WHITE);
-            DrawText("Use the up and down keys ", 450.0f, 270.0f, 20.0f, WHITE);
-            DrawText("to move through the menu!", 450.0f, 300.0f, 20.0f, WHITE);
+            DrawText("Made by Ezequiel Prieto", 10, 430, 20, WHITE);
+            DrawText("SUPER CHAMPION PONG", GetScreenWidth() / 2 - 250, 50, 40, WHITE);
+            DrawText("SINGLE PLAYER", GetScreenWidth() / 2 - 40, 150, 20, WHITE);
+            DrawText("MULTI PLAYER", GetScreenWidth() / 2 - 40, 200, 20, WHITE);
+            DrawText("RULES", GetScreenWidth() / 2 - 40, 250, 20, WHITE);
+            DrawText("EXIT", GetScreenWidth() / 2 - 40, 300, 20, WHITE);
+            DrawText("Use the up and down keys ", 450, 270, 20, WHITE);
+            DrawText("to move through the menu!", 450, 300, 20, WHITE);
             switch (currentOption)
             {
             case SINGLEPLAYER:               
-                DrawText("SINGLE PLAYER", GetScreenWidth() / 2.0f - 40.0f, 150.0f, 20.0f, RED);
+                DrawText("SINGLE PLAYER", GetScreenWidth() / 2 - 40, 150, 20, RED);
                 break;
             case MULTIPLAYER:               
-                DrawText("MULTI PLAYER", GetScreenWidth() / 2.0f - 40.0f, 200.0f, 20.0f, RED);
+                DrawText("MULTI PLAYER", GetScreenWidth() / 2 - 40, 200, 20, RED);
                 break;
             case RULES:                
-                DrawText("RULES", GetScreenWidth() / 2.0f - 40.0f, 250.0f, 20.0f, RED);
+                DrawText("RULES", GetScreenWidth() / 2 - 40, 250, 20, RED);
                 break;
             case EXIT:            
-                DrawText("EXIT", GetScreenWidth() / 2.0f - 40.0f, 300.0f, 20.0f, RED);
+                DrawText("EXIT", GetScreenWidth() / 2 - 40, 300, 20, RED);
                 break;
             default:
                 break;
@@ -193,8 +195,6 @@ void runGame()
 
 void ResetGame(Pad& rectangle1, Pad& rectangle2, Ball& ball)
 {
-    rectangle1.score = 0;
-    rectangle2.score = 0;
     initBall(ball);
     initPad1(rectangle1);
     initPad2(rectangle2);
@@ -215,8 +215,8 @@ void ResetBall(Ball& ball)
     int direction = GetRandomValue(1,4);
     ball.Speed = { 250.0f, 250.0f };
 
-    ball.Position.x = GetScreenWidth() / 2;
-    ball.Position.y = GetScreenHeight() / 2;
+    ball.Position.x = static_cast<float>(GetScreenWidth() / 2);
+    ball.Position.y = static_cast<float>(GetScreenHeight() / 2);
 
     switch (direction)
     {
@@ -254,8 +254,8 @@ void init(Ball& ball, Pad& rectangle1, Pad& rectangle2, Pad& middleRectangle)
 
     initPad2(rectangle2);
 
-    middleRectangle.Position = { (float)screenWidth - 420, (float)screenHeight / 40 };
-    middleRectangle.Size = { (float)screenWidth / 30, (float)screenHeight - 20 };
+    middleRectangle.Position = { static_cast<float>(screenWidth - 420), static_cast<float>(screenHeight / 40) };
+    middleRectangle.Size = { static_cast<float>(screenWidth / 30), static_cast<float>(screenHeight - 20) };
 
 }
 
@@ -283,20 +283,20 @@ void drawGame(Ball& ball, Pad& rectangle1, Pad& rectangle2, Pad& middleRectangle
 
     DrawText(TextFormat("%i", rectangle2.score), 650, 45, 40, RAYWHITE);
 
-    DrawText("Use ESC to go back to the menu ", 20.0f, 420.0f, 20.0f, RAYWHITE);
+    DrawText("Use ESC to go back to the menu ", 20, 420, 20, RAYWHITE);
 
     DrawRectangleV(middleRectangle.Position, middleRectangle.Size, RAYWHITE);
 
-    DrawRectangleGradientH(ball.Position.x, ball.Position.y, ball.Size.x, ball.Size.y, BLACK, RAYWHITE);
+    DrawRectangleGradientH(static_cast<int>(ball.Position.x), static_cast<int>(ball.Position.y), static_cast<int>(ball.Size.x), static_cast<int>(ball.Size.y), BLACK, RAYWHITE);
 
-    DrawRectangleGradientV(rectangle1.Position.x, rectangle1.Position.y, rectangle1.Size.x, rectangle1.Size.y, RED, RAYWHITE);
+    DrawRectangleGradientV(static_cast<int>(rectangle1.Position.x), static_cast<int>(rectangle1.Position.y), static_cast<int>(rectangle1.Size.x), static_cast<int>(rectangle1.Size.y), RED, RAYWHITE);
 
-    DrawRectangleGradientV(rectangle2.Position.x, rectangle2.Position.y, rectangle2.Size.x, rectangle2.Size.y, BLUE, YELLOW);
+    DrawRectangleGradientV(static_cast<int>(rectangle2.Position.x), static_cast<int>(rectangle2.Position.y), static_cast<int>(rectangle2.Size.x), static_cast<int>(rectangle2.Size.y), BLUE, YELLOW);
 }
 
 void updateSingleplayer(Ball& ball, Pad& rectangle1, Pad& rectangle2, GameScreen& currentScreen, bool& gameOver, int winPoints)
 {
-    if (!gameOver)
+    if (!gameOver && !Paused)
     {
         inputsSingle(rectangle1);
 
@@ -386,7 +386,7 @@ void updateSingleplayer(Ball& ball, Pad& rectangle1, Pad& rectangle2, GameScreen
 
 void updateMultiplayer(Ball& ball, Pad& rectangle1, Pad& rectangle2, GameScreen& currentScreen, bool& gameOver, int winPoints)
 {
-    if (!gameOver)
+    if (!gameOver && !Paused)
     {
         inputsMulti(rectangle1, rectangle2);
 
